@@ -73,10 +73,24 @@ function createOperatorGrid() {
     
     const table = document.createElement('table');
     
-    // Calculate the number of rows and columns for landscape orientation
+    // Calculate the number of rows and columns based on screen width
     const totalOperators = operators.length;
-    const columns = Math.ceil(Math.sqrt(totalOperators * 1.5)); // Use 1.5 aspect ratio for landscape
-    const rows = Math.ceil(totalOperators / columns);
+    let columns, rows;
+    
+    // Check if we're on mobile (using window.innerWidth)
+    if (window.innerWidth <= 768) {
+        // Mobile layout: 4 columns
+        columns = 4;
+        rows = Math.ceil(totalOperators / columns);
+    } else if (window.innerWidth <= 1024) {
+        // Tablet layout: 6 columns
+        columns = 6;
+        rows = Math.ceil(totalOperators / columns);
+    } else {
+        // Desktop layout: 8 columns
+        columns = 8;
+        rows = Math.ceil(totalOperators / columns);
+    }
     
     // Create table rows and cells
     for (let i = 0; i < rows; i++) {
@@ -397,6 +411,11 @@ function setupThemeSwitch() {
         }
     });
 }
+
+// Add window resize event listener to recreate the grid when screen size changes
+window.addEventListener('resize', function() {
+    createOperatorGrid();
+});
 
 // Initialize the page when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {

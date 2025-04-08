@@ -205,9 +205,9 @@ input:checked + .slider:before {
 
 table {
     border-collapse: separate;
-    border-spacing: 10px;
+    border-spacing: 8px;
     margin: 0 auto;
-    width: 95%;
+    width: 100%;
     max-width: 1400px;
     table-layout: fixed;
 }
@@ -425,6 +425,149 @@ td:hover {
         max-width: 500px;
         margin: 20px 0;
         position: static;
+    }
+}
+
+@media (max-width: 1024px) {
+    table {
+        border-spacing: 6px;
+    }
+    
+    td {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .operator-icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .page-title {
+        font-size: 24px;
+        padding: 8px 0;
+    }
+
+    .filter-heading {
+        font-size: 18px;
+        top: 40px;
+    }
+
+    .filter-container {
+        top: 70px;
+        padding: 5px 0;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .filter-btn {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    table {
+        border-spacing: 4px;
+    }
+    
+    td {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .operator-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .operator-name {
+        font-size: 10px;
+        padding: 2px 4px;
+    }
+
+    .theme-switch-container {
+        top: 10px;
+        right: 10px;
+    }
+
+    .theme-switch {
+        width: 50px;
+        height: 28px;
+    }
+
+    .slider:before {
+        height: 20px;
+        width: 20px;
+    }
+
+    .random-picker-container {
+        margin-top: 20px;
+        padding: 15px;
+    }
+
+    .random-picker-title {
+        font-size: 20px;
+    }
+
+    .random-operator-slot {
+        width: 60px;
+        height: 60px;
+    }
+
+    .slot-name {
+        font-size: 10px;
+        padding: 2px 4px;
+    }
+
+    .random-pick-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    .starting-side-toggle {
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    table {
+        border-spacing: 3px;
+    }
+    
+    td {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .operator-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .operator-name {
+        font-size: 8px;
+        padding: 1px 2px;
+    }
+
+    .random-operator-slot {
+        width: 45px;
+        height: 45px;
+    }
+
+    .slot-name {
+        font-size: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 12px;
     }
 }
 
