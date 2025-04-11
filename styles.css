@@ -11,7 +11,7 @@
     --filter-btn-hover-bg: #d0d0d0;
     --filter-btn-active-bg: #4a90e2;
     --filter-btn-active-color: white;
-    --filtered-opacity: 0.3;
+    --filtered-opacity: 0.2;
     --attack-color: #e74c3c;
     --defense-color: #3498db;
 }
@@ -244,15 +244,22 @@ td:hover {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 5px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-color: rgba(50, 10, 10, 0.4 );
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
 }
 
 .operator-cell.owned {
-    background-color: transparent;
+    background-color: var(--owned-bg);
+}
+
+.operator-cell.owned .operator-icon {
+    filter: none;
+}
+
+.operator-cell:not(.owned) .operator-icon {
+    filter: grayscale(100%);
 }
 
 .operator-cell:hover {

@@ -64,10 +64,6 @@ function initializePage() {
     themeSwitch.checked = true;
     localStorage.setItem('theme', 'dark');
 
-    // Set all operators as owned by default
-    const allOperatorIds = operators.map(op => op.id);
-    localStorage.setItem('ownedOperators', JSON.stringify(allOperatorIds));
-
     // Create operator grid
     createOperatorGrid();
     
@@ -167,8 +163,8 @@ function createOperatorGrid() {
         rows = Math.ceil(totalOperators / columns);
     }
     
-    // Load owned operators from localStorage
-    const ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+    // Load owned operators from localStorage or initialize as empty array
+    let ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
     
     // Create table rows and cells
     for (let i = 0; i < rows; i++) {
@@ -531,7 +527,16 @@ function toggleOperatorOwnership(operatorId, operatorCell) {
         operatorCell.classList.remove('owned');
     }
     
+    // Sort the owned operators list
+    ownedOperators.sort();
+    
     localStorage.setItem('ownedOperators', JSON.stringify(ownedOperators));
+    
+    // Update the operator configuration box
+    const operatorConfig = document.getElementById('operatorConfig');
+    if (operatorConfig) {
+        operatorConfig.value = JSON.stringify(ownedOperators);
+    }
 }
 
 // Mobile warning popup functionality
