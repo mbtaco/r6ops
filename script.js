@@ -52,6 +52,11 @@ function initializePage() {
     const startingSideToggle = document.getElementById('startingSideToggle');
     const startingSideText = document.getElementById('startingSideText');
     const randomOperatorsContainer = document.getElementById('randomOperatorsContainer');
+    const selectAllBtn = document.getElementById('selectAllBtn');
+    const deselectAllBtn = document.getElementById('deselectAllBtn');
+    const operatorConfig = document.getElementById('operatorConfig');
+    const copyConfigBtn = document.getElementById('copyConfigBtn');
+    const pasteConfigBtn = document.getElementById('pasteConfigBtn');
 
     // Create operator grid
     createOperatorGrid();
@@ -64,6 +69,66 @@ function initializePage() {
     
     // Set up theme switch
     setupThemeSwitch();
+
+    // Set up ownership buttons
+    selectAllBtn.addEventListener('click', () => {
+        const allOperatorIds = operators.map(op => op.id);
+        localStorage.setItem('ownedOperators', JSON.stringify(allOperatorIds));
+        createOperatorGrid(); // Refresh the grid to show all operators as owned
+        updateConfigText(); // Update the config text
+    });
+
+    deselectAllBtn.addEventListener('click', () => {
+        localStorage.setItem('ownedOperators', JSON.stringify([]));
+        createOperatorGrid(); // Refresh the grid to show all operators as unowned
+        updateConfigText(); // Update the config text
+    });
+
+    // Set up config box functionality
+    function updateConfigText() {
+        const ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+        operatorConfig.value = JSON.stringify(ownedOperators);
+    }
+
+    copyConfigBtn.addEventListener('click', () => {
+        operatorConfig.select();
+        document.execCommand('copy');
+        // Show feedback
+        const originalText = copyConfigBtn.textContent;
+        copyConfigBtn.textContent = 'Copied!';
+        setTimeout(() => {
+            copyConfigBtn.textContent = originalText;
+        }, 2000);
+    });
+
+    pasteConfigBtn.addEventListener('click', () => {
+        navigator.clipboard.readText().then(text => {
+            try {
+                const parsed = JSON.parse(text);
+                if (Array.isArray(parsed)) {
+                    localStorage.setItem('ownedOperators', JSON.stringify(parsed));
+                    createOperatorGrid();
+                    updateConfigText();
+                } else {
+                    alert('Invalid configuration format');
+                }
+            } catch (e) {
+                alert('Invalid JSON format');
+            }
+        }).catch(() => {
+            alert('Could not read clipboard');
+        });
+    });
+
+    // Update config text when ownership changes
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.operator-cell')) {
+            setTimeout(updateConfigText, 0);
+        }
+    });
+
+    // Initial update of config text
+    updateConfigText();
 }
 
 // Function to create the operator grid
@@ -92,6 +157,9 @@ function createOperatorGrid() {
         rows = Math.ceil(totalOperators / columns);
     }
     
+    // Load owned operators from localStorage
+    const ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+    
     // Create table rows and cells
     for (let i = 0; i < rows; i++) {
         const row = document.createElement('tr');
@@ -104,6 +172,11 @@ function createOperatorGrid() {
                 const operatorCell = document.createElement('div');
                 operatorCell.className = 'operator-cell';
                 operatorCell.setAttribute('data-role', operator.role);
+                
+                // Add owned class if operator is owned
+                if (ownedOperators.includes(operator.id)) {
+                    operatorCell.classList.add('owned');
+                }
                 
                 const icon = document.createElement('div');
                 icon.className = 'operator-icon';
@@ -125,6 +198,12 @@ function createOperatorGrid() {
                 // Add click event to show operator details
                 operatorCell.addEventListener('click', function() {
                     showOperatorDetails(operator);
+                });
+                
+                // Add right-click event to toggle ownership
+                operatorCell.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    toggleOperatorOwnership(operator.id, operatorCell);
                 });
             } else {
                 // Add empty cell to maintain grid structure
@@ -264,9 +343,13 @@ function setupRandomPicker(randomButton, startingSideToggle, startingSideText, r
         const isDefense = startingSideToggle.checked;
         console.log("Starting side:", isDefense ? "Defense" : "Attack");
         
+        // Get owned operators
+        const ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+        const ownedOperatorsList = operators.filter(op => ownedOperators.includes(op.id));
+        
         // Get all operators with their roles
-        const attackOperators = operators.filter(op => op.role === 'attacker');
-        const defenseOperators = operators.filter(op => op.role === 'defender');
+        const attackOperators = ownedOperatorsList.filter(op => op.role === 'attacker');
+        const defenseOperators = ownedOperatorsList.filter(op => op.role === 'defender');
         
         console.log("Attack operators:", attackOperators.length);
         console.log("Defense operators:", defenseOperators.length);
@@ -278,7 +361,7 @@ function setupRandomPicker(randomButton, startingSideToggle, startingSideText, r
             // Starting on defense side
             // Make sure we have enough operators
             if (defenseOperators.length < 4 || attackOperators.length < 3) {
-                alert('Not enough operators available for the selected side!');
+                alert('Not enough owned operators available for the selected side!');
                 return;
             }
             
@@ -297,7 +380,7 @@ function setupRandomPicker(randomButton, startingSideToggle, startingSideText, r
             // Starting on attack side
             // Make sure we have enough operators
             if (attackOperators.length < 4 || defenseOperators.length < 3) {
-                alert('Not enough operators available for the selected side!');
+                alert('Not enough owned operators available for the selected side!');
                 return;
             }
             
@@ -421,4 +504,22 @@ window.addEventListener('resize', function() {
 document.addEventListener('DOMContentLoaded', function() {
     // The page will be initialized after the operator data is loaded
     // This is handled in the fetch callback
-}); 
+});
+
+// Function to toggle operator ownership
+function toggleOperatorOwnership(operatorId, operatorCell) {
+    const ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+    const index = ownedOperators.indexOf(operatorId);
+    
+    if (index === -1) {
+        // Add to owned operators
+        ownedOperators.push(operatorId);
+        operatorCell.classList.add('owned');
+    } else {
+        // Remove from owned operators
+        ownedOperators.splice(index, 1);
+        operatorCell.classList.remove('owned');
+    }
+    
+    localStorage.setItem('ownedOperators', JSON.stringify(ownedOperators));
+} 

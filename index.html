@@ -29,6 +29,18 @@
     </div>
 
     <div class="content-container">
+        <div class="ownership-menu">
+            <h3>Ownership</h3>
+            <button id="selectAllBtn" class="ownership-btn">Select All</button>
+            <button id="deselectAllBtn" class="ownership-btn">Deselect All</button>
+            <span class="ownership-label">Right click operator to toggle ownership</span>
+            <div class="config-box">
+                <label for="operatorConfig">Operator Configuration:</label>
+                <textarea id="operatorConfig" class="config-textarea" readonly></textarea>
+                <button id="copyConfigBtn" class="ownership-btn">Copy Configuration</button>
+                <button id="pasteConfigBtn" class="ownership-btn">Paste Configuration</button>
+            </div>
+        </div>
         <div id="operatorGridContainer"></div>
         
         <div class="random-picker-container">
