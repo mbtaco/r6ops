@@ -57,6 +57,16 @@ function initializePage() {
     const operatorConfig = document.getElementById('operatorConfig');
     const copyConfigBtn = document.getElementById('copyConfigBtn');
     const pasteConfigBtn = document.getElementById('pasteConfigBtn');
+    const themeSwitch = document.getElementById('theme-toggle');
+
+    // Set dark mode by default
+    document.body.classList.add('dark-mode');
+    themeSwitch.checked = true;
+    localStorage.setItem('theme', 'dark');
+
+    // Set all operators as owned by default
+    const allOperatorIds = operators.map(op => op.id);
+    localStorage.setItem('ownedOperators', JSON.stringify(allOperatorIds));
 
     // Create operator grid
     createOperatorGrid();
@@ -522,4 +532,14 @@ function toggleOperatorOwnership(operatorId, operatorCell) {
     }
     
     localStorage.setItem('ownedOperators', JSON.stringify(ownedOperators));
-} 
+}
+
+// Mobile warning popup functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileWarningModal = document.getElementById('mobileWarning');
+    const closeButton = document.querySelector('.mobile-warning-content button');
+    
+    closeButton.addEventListener('click', function() {
+        mobileWarningModal.style.display = 'none';
+    });
+}); 

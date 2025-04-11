@@ -248,11 +248,11 @@ td:hover {
     padding: 5px;
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: rgba(50, 10, 10, 0.4 );
 }
 
 .operator-cell.owned {
-    background-color: rgba(0, 255, 0, 0.05);
-    outline: 1px solid rgba(0, 255, 0, 0.2);
+    background-color: transparent;
 }
 
 .operator-cell:hover {
@@ -261,7 +261,7 @@ td:hover {
 }
 
 .operator-cell.owned:hover {
-    background-color: rgba(0, 255, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .operator-cell.filtered-out {
@@ -554,6 +554,10 @@ td:hover {
         flex-direction: column;
         align-items: center;
         gap: 5px;
+    }
+
+    .mobile-warning-modal {
+        display: flex;
     }
 }
 
@@ -1161,4 +1165,60 @@ input:checked + .toggle-slider:before {
 
 .dark-mode ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode .operator-cell {
+    background-color: rgba(50, 10, 10, 0.5);
+}
+
+.dark-mode .operator-cell.owned {
+    background-color: transparent;
+}
+
+.dark-mode .operator-cell:not(.owned) {
+    background-color: rgba(50, 0, 0, 0.5);
+}
+
+/* Mobile Warning Modal */
+.mobile-warning-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-warning-content {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+}
+
+.mobile-warning-content h3 {
+    margin-top: 0;
+    color: var(--text-color);
+}
+
+.mobile-warning-content p {
+    margin: 15px 0;
+    color: var(--text-color);
+}
+
+.dark-mode .mobile-warning-content {
+    background-color: #1a1a1a;
+}
+
+/* Show modal on mobile */
+@media (max-width: 768px) {
+    .mobile-warning-modal {
+        display: flex;
+    }
 } 
