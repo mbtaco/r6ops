@@ -178,6 +178,14 @@ function createOperatorGrid() {
                 return a.name.localeCompare(b.name);
             });
             break;
+        case 'price':
+            sortedOperators.sort((a, b) => {
+                // Convert price strings to numbers, handling cases where price might be "Unknown"
+                const priceA = a.price === 'Unknown' ? Infinity : parseInt(a.price.replace(/,/g, ''));
+                const priceB = b.price === 'Unknown' ? Infinity : parseInt(b.price.replace(/,/g, ''));
+                return priceA - priceB;
+            });
+            break;
     }
     
     // Calculate the number of rows and columns based on screen width
