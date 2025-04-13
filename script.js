@@ -180,9 +180,8 @@ function createOperatorGrid() {
             break;
         case 'price':
             sortedOperators.sort((a, b) => {
-                // Convert price strings to numbers, handling cases where price might be "Unknown"
-                const priceA = a.price === 'Unknown' ? Infinity : parseInt(a.price.replace(/,/g, ''));
-                const priceB = b.price === 'Unknown' ? Infinity : parseInt(b.price.replace(/,/g, ''));
+                const priceA = a.price === 'Unknown' ? 0 : parseInt(a.price);
+                const priceB = b.price === 'Unknown' ? 0 : parseInt(b.price);
                 return priceA - priceB;
             });
             break;
