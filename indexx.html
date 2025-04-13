@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Rainbow Six Siege Operator Grid</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="theme-switch-container">
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider round"></span>
+        </label>
+        <span class="theme-label">Dark Mode</span>
+    </div>
+
+    <h1 class="page-title">Rainbow Six Siege Operators</h1>
+    
+    <h2 class="filter-heading">Filter</h2>
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="attack">Attack</button>
+        <button class="filter-btn" data-filter="defense">Defense</button>
+    </div>
+
+    <div class="sort-container">
+        <span class="sort-label">Sort by:</span>
+        <select id="sortSelect" class="sort-select">
+            <option value="alphabetical">Alphabetical</option>
+            <option value="season">Release Date</option>
+            <option value="attack">Attack First</option>
+            <option value="defense">Defense First</option>
+        </select>
+    </div>
+
+    <div class="content-container">
+        <div class="ownership-menu">
+            <h3>Ownership</h3>
+            <button id="selectAllBtn" class="ownership-btn">Select All</button>
+            <button id="deselectAllBtn" class="ownership-btn">Deselect All</button>
+            <span class="ownership-label">Right click operator to toggle ownership</span>
+            <div class="config-box">
+                <label for="operatorConfig">Operator Configuration:</label>
+                <textarea id="operatorConfig" class="config-textarea" readonly></textarea>
+                <button id="copyConfigBtn" class="ownership-btn">Copy Configuration</button>
+                <button id="pasteConfigBtn" class="ownership-btn">Paste Configuration</button>
+            </div>
+        </div>
+        <div id="operatorGridContainer"></div>
+        
+        <div class="random-picker-container">
+            <h2 class="random-picker-title">Random Operator Lineup</h2>
+            <div class="random-picker-content">
+                <div id="randomOperatorsContainer" class="random-operators-container"></div>
+                <button id="randomPickBtn" class="random-pick-btn">Generate 7-Operator Lineup</button>
+                <div class="random-picker-options">
+                    <div class="starting-side-toggle">
+                        <span class="toggle-label">Starting Side:</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="startingSideToggle">
+                            <span class="toggle-slider round"></span>
+                        </label>
+                        <span class="toggle-text" id="startingSideText">Attack</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobileWarning" class="mobile-warning-modal">
+        <div class="mobile-warning-content">
+            <h3>Mobile Notice</h3>
+            <p>This website is optimized for desktop use. Some features may not work as expected on mobile devices.</p>
+            <button id="closeMobileWarning" class="ownership-btn">Got it!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

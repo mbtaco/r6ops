@@ -522,14 +522,16 @@ function setupRandomPicker(randomButton, startingSideToggle, startingSideText, r
 function setupThemeSwitch() {
     const themeSwitch = document.getElementById('theme-toggle');
     
-    // Check for saved theme preference
+    // Check for saved theme preference, default to dark mode if none exists
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    if (savedTheme === 'light') {
+        document.body.classList.remove('dark-mode');
+        themeSwitch.checked = false;
+    } else {
         document.body.classList.add('dark-mode');
         themeSwitch.checked = true;
     }
     
-    // Handle theme switch changes
     themeSwitch.addEventListener('change', function() {
         if (this.checked) {
             document.body.classList.add('dark-mode');
