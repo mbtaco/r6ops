@@ -144,8 +144,44 @@ function createOperatorGrid() {
     
     const table = document.createElement('table');
     
+    // Get current sort method
+    const sortSelect = document.getElementById('sortSelect');
+    const sortMethod = sortSelect ? sortSelect.value : 'alphabetical';
+    
+    // Sort operators based on selected method
+    let sortedOperators = [...operators];
+    switch(sortMethod) {
+        case 'alphabetical':
+            sortedOperators.sort((a, b) => a.name.localeCompare(b.name));
+            break;
+        case 'season':
+            sortedOperators.sort((a, b) => {
+                // Extract season number from season string (e.g., "Y1S1" -> 1)
+                const getSeasonNum = (season) => {
+                    const match = season.match(/Y(\d+)S(\d+)/);
+                    return match ? parseInt(match[1]) * 4 + parseInt(match[2]) : 0;
+                };
+                return getSeasonNum(a.season) - getSeasonNum(b.season);
+            });
+            break;
+        case 'attack':
+            sortedOperators.sort((a, b) => {
+                if (a.role === 'attacker' && b.role !== 'attacker') return -1;
+                if (a.role !== 'attacker' && b.role === 'attacker') return 1;
+                return a.name.localeCompare(b.name);
+            });
+            break;
+        case 'defense':
+            sortedOperators.sort((a, b) => {
+                if (a.role === 'defender' && b.role !== 'defender') return -1;
+                if (a.role !== 'defender' && b.role === 'defender') return 1;
+                return a.name.localeCompare(b.name);
+            });
+            break;
+    }
+    
     // Calculate the number of rows and columns based on screen width
-    const totalOperators = operators.length;
+    const totalOperators = sortedOperators.length;
     let columns, rows;
     
     // Check if we're on mobile (using window.innerWidth)
@@ -163,8 +199,12 @@ function createOperatorGrid() {
         rows = Math.ceil(totalOperators / columns);
     }
     
-    // Load owned operators from localStorage or initialize as empty array
-    let ownedOperators = JSON.parse(localStorage.getItem('ownedOperators') || '[]');
+    // Load owned operators from localStorage or initialize with all operator IDs
+    let ownedOperators = JSON.parse(localStorage.getItem('ownedOperators'));
+    if (ownedOperators === null) {
+        // If no configuration exists, make all operators owned by default
+        ownedOperators = operators.map(op => op.id);
+    }
     
     // Create table rows and cells
     for (let i = 0; i < rows; i++) {
@@ -174,7 +214,7 @@ function createOperatorGrid() {
             const operatorIndex = i * columns + j;
             
             if (operatorIndex < totalOperators) {
-                const operator = operators[operatorIndex];
+                const operator = sortedOperators[operatorIndex];
                 const operatorCell = document.createElement('div');
                 operatorCell.className = 'operator-cell';
                 operatorCell.setAttribute('data-role', operator.role);
@@ -547,4 +587,14 @@ document.addEventListener('DOMContentLoaded', function() {
     closeButton.addEventListener('click', function() {
         mobileWarningModal.style.display = 'none';
     });
+});
+
+// Add event listener for sort changes
+document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            createOperatorGrid();
+        });
+    }
 }); 
