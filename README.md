@@ -1,4 +1,4 @@
-# Rainbow Six Siege Operator Grid
+# Rainbow Six Siege Tool
 
 A web application for Rainbow Six Siege players to browse operators and generate random operator lineups for matches.
 
@@ -6,6 +6,7 @@ A web application for Rainbow Six Siege players to browse operators and generate
 
 - **Operator Grid**: Browse all Rainbow Six Siege operators with their icons and names
 - **Filtering**: Filter operators by role (Attack, Defense, or All)
+- **Sorting**: Sort operators (Alphabetical, Release date, Price, etc.)
 - **Random Lineup Generator**: Generate a 7-operator lineup for a match
 - **Starting Side Toggle**: Choose whether to start on Attack or Defense side
 - **Dark Mode**: Toggle between light and dark themes
@@ -25,13 +26,15 @@ This project is built with:
 - HTML5
 - CSS3
 - JavaScript (Vanilla JS, no frameworks)
-- SVG icons for operators
 
 ## Setup
 
 1. Clone the repository
 2. Open `index.html` in your web browser
 3. No build process or dependencies required
+/- or -
+go to https://mbtaco.github.io/r6ops/
+  
 
 ## License
 
