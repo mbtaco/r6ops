@@ -32,7 +32,7 @@ This project is built with:
 1. Clone the repository
 2. Open `index.html` in your web browser
 3. No build process or dependencies required
-– or –
+OR
 go to https://mbtaco.github.io/r6ops/
   
 
