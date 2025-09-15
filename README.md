@@ -1,3 +1,6 @@
+# This the old and really bad one, go to my other one, you can see it if you want to though
+https://mbtaco.github.io/r6ops/
+
 # Rainbow Six Siege Tool
 
 A web application for Rainbow Six Siege players to browse operators and generate random operator lineups for matches.
